@@ -11,12 +11,12 @@ export default function Home() {
     <div className="mx-auto max-w-[30ch]">
       <h1 className="heading-1">About</h1>
       <p>
-        Welcome to Pokécommerce, a Pokémon themed ecommerce app built by{' '}
+        Pokécommerce is a Pokémon themed ecommerce app built by{' '}
         <ExternalLink href="https://github.com/tansongyang">
           Frank Tan
-        </ExternalLink>
-        . This project&apos;s goal is to help me learn{' '}
-        <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>.
+        </ExternalLink>{' '}
+        to learn <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>
+        .
       </p>
     </div>
   )
