@@ -21,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, 'flex min-h-screen flex-col')}>
+      <body
+        className={clsx(inter.className, 'min-safe-h-screen flex flex-col')}
+      >
         <Header />
         <main className="grow">{children}</main>
         <Footer />
