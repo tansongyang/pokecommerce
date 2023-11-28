@@ -31,13 +31,6 @@ body {
   height: 100%;
 }
 
-@layer base {
-  a {
-    @apply underline;
-    @apply underline-offset-2;
-  }
-}
-
 @layer utilities {
   /* https://github.com/tailwindlabs/tailwindcss/discussions/4515#discussioncomment-2112460 */
   .min-safe-h-screen {
@@ -50,5 +43,16 @@ body {
     .min-safe-h-screen {
       min-height: -webkit-fill-available;
     }
+  }
+
+  .link {
+    @apply underline;
+    @apply underline-offset-2;
+  }
+
+  .heading-1 {
+    @apply text-xl;
+    @apply font-bold;
+    @apply my-2;
   }
 }
