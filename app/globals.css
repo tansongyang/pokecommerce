@@ -26,6 +26,11 @@ body {
   background: var(--color-background);
 }
 
+html,
+body {
+  height: 100%;
+}
+
 @layer base {
   a {
     @apply underline;
