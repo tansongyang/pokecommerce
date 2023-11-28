@@ -1,4 +1,10 @@
+import { Metadata } from 'next'
+
 import ExternalLink from '@/app/ui/external-link'
+
+export const metadata: Metadata = {
+  title: 'Pokécommerce | About',
+}
 
 export default function Home() {
   return (
