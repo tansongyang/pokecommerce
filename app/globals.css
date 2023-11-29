@@ -12,12 +12,14 @@
 
   --color-foreground: var(--color-pokeballblack);
   --color-background: var(--color-pokeballwhite);
+  --color-primary: var(--color-pokemonblue);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--color-pokeballblack);
     --color-foreground: var(--color-pokeballwhite);
+    --color-primary: var(--color-pokemonyellow);
   }
 }
 
@@ -42,6 +44,34 @@ body {
   @supports (-webkit-touch-callout: none) {
     .min-safe-h-screen {
       min-height: -webkit-fill-available;
+    }
+  }
+
+  .button {
+    @apply rounded-full;
+
+    @apply px-4;
+    @apply py-2;
+
+    @apply bg-primary;
+    @apply text-background;
+  }
+
+  .input {
+    @apply border-2;
+    @apply border-foreground;
+    @apply rounded-full;
+
+    @apply px-4;
+    @apply py-2;
+
+    @apply appearance-none;
+    @apply text-foreground;
+    @apply bg-background;
+
+    &:focus {
+      @apply outline-none;
+      @apply border-primary;
     }
   }
 
