@@ -2,8 +2,9 @@
 
 import { redirect } from 'next/navigation'
 
-import { SearchFormFields } from '@/app/ui/home/search-form'
+import { type SearchForm, SearchFormSchema } from '@/app/lib/schemas'
 
-export async function search(data: SearchFormFields) {
-  redirect('/search')
+export async function search(data: SearchForm) {
+  const validated = SearchFormSchema.parse(data)
+  redirect(`/search?handoff=${validated.handoff}&zip=${validated.zip}`)
 }

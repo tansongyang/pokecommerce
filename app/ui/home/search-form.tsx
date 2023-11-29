@@ -2,24 +2,17 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 
 import { search } from '@/app/lib/actions'
-
-const schema = z.object({
-  handoff: z.enum(['pickup', 'curbside', 'drivethru']),
-  zip: z.string().regex(/\d{5}/, 'Please enter a 5 digit US ZIP code'),
-})
-
-export type SearchFormFields = z.infer<typeof schema>
+import { type SearchForm, SearchFormSchema } from '@/app/lib/schemas'
 
 export default function SearchForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SearchFormFields>({
-    resolver: zodResolver(schema),
+  } = useForm<SearchForm>({
+    resolver: zodResolver(SearchFormSchema),
     defaultValues: {
       handoff: 'pickup',
       zip: '',
