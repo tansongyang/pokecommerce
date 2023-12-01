@@ -11,7 +11,7 @@ async function seedLocations(client) {
         id INT PRIMARY KEY,
         slug TEXT NOT NULL UNIQUE,
         name TEXT NOT NULL UNIQUE,
-        region INT NOT NULL,
+        region TEXT NOT NULL,
         description TEXT NOT NULL
       );
     `

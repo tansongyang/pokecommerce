@@ -13,7 +13,7 @@ export async function fetchLocation(slug: string): Promise<Location> {
 }
 
 export async function fetchLocations(zip: string): Promise<Array<Location>> {
-  const region = zip < '50000' ? 1 : 2
+  const region = zip < '50000' ? 'kanto' : 'johto'
 
   const data = await sql<Location>`
     SELECT id, slug, name, region, description
