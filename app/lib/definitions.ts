@@ -1,8 +1,4 @@
-export type Location = LocationRaw & {
-  distance: number
-}
-
-export type LocationRaw = {
+export type Location = {
   id: string
   slug: string
   name: string
