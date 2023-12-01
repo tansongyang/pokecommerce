@@ -1,42 +1,20 @@
-type Language = {
-  name: string
-}
+import { sql } from '@vercel/postgres'
 
-type Location = {
-  id: string
-  names: Array<{ language: Language; name: string }>
-}
+import { Location, LocationRaw } from '@/app/lib/definitions'
 
-// Order comes from https://nintendo.fandom.com/wiki/Kanto
-const KANTO_CITY_IDS = [86, 154, 231, 68, 151, 232, 67, 76, 234, 71]
-// Order comes from https://nintendo.fandom.com/wiki/Johto
-const JOHTO_CITY_IDS = [84, 69, 153, 228, 229, 75, 85, 70, 230, 65]
-const EASTERN_IDS = [...KANTO_CITY_IDS, ...JOHTO_CITY_IDS]
-const WESTERN_IDS = [...JOHTO_CITY_IDS, ...KANTO_CITY_IDS]
+export async function fetchLocations(zip: string): Promise<Array<Location>> {
+  const region = zip < '50000' ? 1 : 2
 
-export async function fetchLocations(zip: string) {
-  const ids = zip < '50000' ? EASTERN_IDS : WESTERN_IDS
+  const data = await sql<LocationRaw>`
+    SELECT id, name, region, description
+    FROM locations
+    WHERE region = ${region}
+  `
 
-  const page = ids.slice(0, 10)
-
-  const results = await Promise.allSettled<Location>(
-    page.map((id) =>
-      fetch(`https://pokeapi.co/api/v2/location/${id}/`).then((r) => r.json()),
-    ),
-  )
-
-  const locations = results
-    .filter((r) => r.status === 'fulfilled')
-    .map((r, i) => {
-      const fulfilled = r as PromiseFulfilledResult<Location>
-      const location = fulfilled.value
-
-      const name = location.names.find((n) => n.language.name === 'en')!.name
-
-      const distance = Math.round(2 ** (i / 2))
-
-      return { id: location.id, name, distance }
-    })
+  const locations = data.rows.map((location, i) => {
+    const distance = Math.round(2 ** (i / 2))
+    return { ...location, distance }
+  })
 
   return locations
 }
