@@ -9,22 +9,29 @@ async function seedLocations(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS locations (
         id INT PRIMARY KEY,
+        slug TEXT NOT NULL UNIQUE,
         name TEXT NOT NULL,
         region INT NOT NULL,
         description TEXT NOT NULL
       );
     `
 
-    console.log(`Created "locations" table`)
+    console.log(`Created table "locations"`)
+
+    const createIndex = await client.sql`
+      CREATE UNIQUE INDEX IF NOT EXISTS slug_idx ON locations (slug)
+    `
+
+    console.log(`Created index on "locations (slug)"`)
 
     // Insert data into the "locations" table
     const insertedLocations = await Promise.all(
       locations.map(async (location) => {
         return client.sql`
-          INSERT INTO locations (id, name, region, description)
-          VALUES (${location.id}, ${location.name}, ${location.region}, ${location.description})
+          INSERT INTO locations (id, slug, name, region, description)
+          VALUES (${location.id}, ${location.slug}, ${location.name}, ${location.region}, ${location.description})
           ON CONFLICT (id) DO NOTHING;
-      `
+        `
       }),
     )
 
@@ -32,6 +39,7 @@ async function seedLocations(client) {
 
     return {
       createTable,
+      createIndex,
       locations: insertedLocations,
     }
   } catch (error) {
