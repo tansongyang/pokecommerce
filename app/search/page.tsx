@@ -17,10 +17,7 @@ export default async function Search({ searchParams }: Props) {
   return (
     <ul className="flex flex-col gap-y-4 p-4">
       {locations.map((l) => (
-        <li
-          key={l.id}
-          className="flex flex-col gap-y-4 rounded-3xl border-2 border-foreground p-4"
-        >
+        <li key={l.id} className="card flex flex-col gap-y-4">
           <p className="font-bold">{l.name}</p>
           <p>{l.description}</p>
           <Link href={`/locations/${l.slug}`} className="button text-center">
