@@ -2,7 +2,17 @@
  * Kanto and Johto cities and towns
  *
  * `description` from https://bulbapedia.bulbagarden.net/wiki/User:Pumpkinking0192/List_of_city_slogans
- * All other fields from https://pokeapi.co/docs/v2#locations-section
+ *
+ * All other fields can be generated with this:
+ *
+ *     await fetch(`https://pokeapi.co/api/v2/location/${id}`)
+ *       .then((r) => r.json())
+ *       .then((l) => ({
+ *         id: l.id,
+ *         slug: l.name,
+ *         name: l.names.find((n) => n.language.name === 'en').name,
+ *         region: l.region.name === 'kanto' ? 1 : 2,
+ *       }))
  */
 const locations = [
   {
@@ -147,6 +157,183 @@ const locations = [
   },
 ]
 
+/**
+ * Top 5 non-lengendary Kanto and Johto Pokémon from Pokémon of the Year 2020:
+ * https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_of_the_Year
+ *
+ * Data generated with this:
+ *
+ *     await fetch(`https://pokeapi.co/api/v2/pokemon/6`)
+ *       .then((r) => r.json())
+ *       .then((p) => ({
+ *         id: p.id,
+ *         slug: p.name,
+ *         name: p.name[0].toUpperCase() + p.name.slice(1),
+ *         sprite: p.sprites.front_default,,
+ *         type1: p.types[0].type.name,
+ *         type2: !!p.types[1] ? p.types[1].type.name : null,
+ *         hp: p.stats[0].base_stat,
+ *         attack: p.stats[1].base_stat,
+ *         defense: p.stats[2].base_stat,
+ *         specialattack: p.stats[3].base_stat,
+ *         specialdefense: p.stats[4].base_stat,
+ *         speed: p.stats[5].base_stat,
+ *       }))
+ */
+const pokemon = [
+  {
+    id: 6,
+    slug: 'charizard',
+    name: 'Charizard',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
+    type1: 'fire',
+    type2: 'flying',
+    hp: 78,
+    attack: 84,
+    defense: 78,
+    specialattack: 109,
+    specialdefense: 85,
+    speed: 100,
+  },
+  {
+    id: 94,
+    slug: 'gengar',
+    name: 'Gengar',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png',
+    type1: 'ghost',
+    type2: 'poison',
+    hp: 60,
+    attack: 65,
+    defense: 60,
+    specialattack: 130,
+    specialdefense: 75,
+    speed: 110,
+  },
+  {
+    id: 1,
+    slug: 'bulbasaur',
+    name: 'Bulbasaur',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+    type1: 'grass',
+    type2: 'poison',
+    hp: 45,
+    attack: 49,
+    defense: 49,
+    specialattack: 65,
+    specialdefense: 65,
+    speed: 45,
+  },
+  {
+    id: 25,
+    slug: 'pikachu',
+    name: 'Pikachu',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+    type1: 'electric',
+    type2: null,
+    hp: 35,
+    attack: 55,
+    defense: 40,
+    specialattack: 50,
+    specialdefense: 50,
+    speed: 90,
+  },
+  {
+    id: 133,
+    slug: 'eevee',
+    name: 'Eevee',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png',
+    type1: 'normal',
+    type2: null,
+    hp: 55,
+    attack: 55,
+    defense: 50,
+    specialattack: 45,
+    specialdefense: 65,
+    speed: 55,
+  },
+  {
+    id: 197,
+    slug: 'umbreon',
+    name: 'Umbreon',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/197.png',
+    type1: 'dark',
+    type2: null,
+    hp: 95,
+    attack: 65,
+    defense: 110,
+    specialattack: 60,
+    specialdefense: 130,
+    speed: 65,
+  },
+  {
+    id: 248,
+    slug: 'tyranitar',
+    name: 'Tyranitar',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/248.png',
+    type1: 'rock',
+    type2: 'dark',
+    hp: 100,
+    attack: 134,
+    defense: 110,
+    specialattack: 95,
+    specialdefense: 100,
+    speed: 61,
+  },
+  {
+    id: 157,
+    slug: 'typhlosion',
+    name: 'Typhlosion',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/157.png',
+    type1: 'fire',
+    type2: null,
+    hp: 78,
+    attack: 84,
+    defense: 78,
+    specialattack: 109,
+    specialdefense: 85,
+    speed: 100,
+  },
+  {
+    id: 212,
+    slug: 'scizor',
+    name: 'Scizor',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/212.png',
+    type1: 'bug',
+    type2: 'steel',
+    hp: 70,
+    attack: 130,
+    defense: 100,
+    specialattack: 55,
+    specialdefense: 80,
+    speed: 65,
+  },
+  {
+    id: 181,
+    slug: 'ampharos',
+    name: 'Ampharos',
+    sprite:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/181.png',
+    type1: 'electric',
+    type2: null,
+    hp: 90,
+    attack: 75,
+    defense: 85,
+    specialattack: 115,
+    specialdefense: 90,
+    speed: 55,
+  },
+]
+
 module.exports = {
   locations,
+  pokemon,
 }
