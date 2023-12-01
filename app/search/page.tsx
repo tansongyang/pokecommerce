@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import { fetchLocations } from '@/app/lib/data'
 
 export const metadata: Metadata = {
-  title: 'Pokécommerce | Find a storefront',
+  title: 'Pokécommerce | Find a location',
 }
 
 export default async function Search({
