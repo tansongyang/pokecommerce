@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function Locations({ params }: Props) {
+export default async function Location({ params }: Props) {
   const [location, items] = await Promise.all([
     fetchLocation(params.slug),
     fetchItems(),
@@ -28,13 +28,12 @@ export default async function Locations({ params }: Props) {
       <h1 className="text-center text-2xl font-bold">{location.name}</h1>
       <ul className="grid grid-cols-2 gap-4 p-4">
         {items.map((i) => (
-          <li key={i.id} className="card flex gap-x-2">
+          <li key={i.id} className="card flex items-center gap-x-2">
             <Image
               src={i.sprite}
               width={30}
               height={30}
               alt={`Image of ${i.name}`}
-              className="self-center"
             />
             <div className="flex flex-col justify-between">
               <p className="font-bold">{i.name}</p>
