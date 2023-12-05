@@ -25,7 +25,7 @@ export default async function Location({ params }: Props) {
 
   return (
     <div>
-      <h1 className="text-center text-2xl font-bold">{location.name}</h1>
+      <h1 className="heading-1 text-center">{location.name}</h1>
       <ul className="grid grid-cols-2 gap-4 p-4">
         {items.map((i) => (
           <li key={i.id} className="card flex items-center gap-x-2">
