@@ -1,12 +1,14 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
-import { search } from '@/app/lib/actions'
 import { type SearchForm, SearchFormSchema } from '@/app/lib/schemas'
 
 export default function SearchForm() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -21,7 +23,11 @@ export default function SearchForm() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => search(data))}
+      onSubmit={handleSubmit((data) =>
+        router.push(
+          `/locations/search?handoff=${data.handoff}&zip=${data.zip}`,
+        ),
+      )}
       className="flex flex-col gap-y-4 p-4"
     >
       <select className="input" {...register('handoff')}>

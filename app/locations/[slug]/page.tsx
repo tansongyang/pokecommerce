@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 
-import { fetchAllPokemon, fetchLocation } from '@/app/lib/data'
+import { fetchItems, fetchLocation } from '@/app/lib/data'
 
 type Props = {
   params: { slug: string }
@@ -17,27 +17,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function Locations({ params }: Props) {
-  const [location, pokemon] = await Promise.all([
+export default async function Location({ params }: Props) {
+  const [location, items] = await Promise.all([
     fetchLocation(params.slug),
-    fetchAllPokemon(),
+    fetchItems(),
   ])
 
   return (
     <div>
-      <h1 className="text-center text-2xl font-bold">{location.name}</h1>
-      <ul className="flex flex-col gap-y-4 p-4">
-        {pokemon.map((p) => (
-          <li key={p.id} className="card flex gap-x-4">
+      <h1 className="heading-1 text-center">{location.name}</h1>
+      <ul className="grid grid-cols-2 gap-4 p-4">
+        {items.map((i) => (
+          <li key={i.id} className="card flex items-center gap-x-2">
             <Image
-              src={p.sprite}
-              width={100}
-              height={100}
-              alt={`Image of ${p.name}`}
+              src={i.sprite}
+              width={30}
+              height={30}
+              alt={`Image of ${i.name}`}
             />
             <div className="flex flex-col justify-between">
-              <p className="font-bold">{p.name}</p>
-              <p>${p.price}.00</p>
+              <p className="font-bold">{i.name}</p>
+              <p>¥${i.cost}</p>
             </div>
           </li>
         ))}

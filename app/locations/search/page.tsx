@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Pokécommerce | Find a location',
 }
 
-export default async function Search({ searchParams }: Props) {
+export default async function LocationsSearch({ searchParams }: Props) {
   const locations = await fetchLocations(searchParams.zip)
 
   return (

@@ -17,6 +17,13 @@ const config: Config = {
         primary: 'var(--color-primary)',
         error: 'var(--color-pokeballred)',
       },
+      keyframes: {
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
+      },
     },
   },
   plugins: [],
