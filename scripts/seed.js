@@ -1,7 +1,7 @@
 // @ts-check
 
 const { db } = require('@vercel/postgres')
-const { locations, pokemon } = require('../app/lib/placeholder-data.js')
+const { locations, items } = require('../app/lib/placeholder-data.js')
 
 async function seedLocations(client) {
   try {
@@ -22,7 +22,7 @@ async function seedLocations(client) {
       CREATE UNIQUE INDEX IF NOT EXISTS slug_idx ON locations (slug)
     `
 
-    console.log(`Created index on "locations (slug)"`)
+    console.log(`Created index on "locations" (slug)`)
 
     // Insert data into the "locations" table
     const insertedLocations = await Promise.all(
@@ -51,61 +51,47 @@ async function seedLocations(client) {
   }
 }
 
-async function seedPokemon(client) {
+async function seedItems(client) {
   try {
-    // Create the "pokemon" table if it doesn't exist
+    // Create the "items" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS pokemon (
+      CREATE TABLE IF NOT EXISTS items (
         id INT PRIMARY KEY,
         slug TEXT NOT NULL UNIQUE,
         name TEXT NOT NULL UNIQUE,
         sprite TEXT NOT NULL,
-        type1 TEXT NOT NULL,
-        type2 TEXT,
-        hp INT NOT NULL,
-        attack INT NOT NULL,
-        defense INT NOT NULL,
-        specialattack INT NOT NULL,
-        specialdefense INT NOT NULL,
-        speed INT NOT NULL
+        cost INT NOT NULL
       );
     `
 
-    console.log(`Created table "pokemon"`)
+    console.log(`Created table "items"`)
 
     const createIndex = await client.sql`
-      CREATE UNIQUE INDEX IF NOT EXISTS slug_idx ON pokemon (slug)
+      CREATE UNIQUE INDEX IF NOT EXISTS slug_idx ON items (slug)
     `
 
-    console.log(`Created index on "pokemon (slug)"`)
+    console.log(`Created index on "items" (slug)`)
 
-    // Insert data into the "pokemon" table
-    const insertedPokemon = await Promise.all(
-      pokemon.map(async (p) => {
+    // Insert data into the "items" table
+    const insertedItems = await Promise.all(
+      items.map(async (i) => {
         return client.sql`
-          INSERT INTO pokemon (
-            id, slug, name, sprite, type1, type2, hp, attack, defense,
-            specialattack, specialdefense, speed
-          )
-          VALUES (
-            ${p.id}, ${p.slug}, ${p.name}, ${p.sprite}, ${p.type1}, ${p.type2},
-            ${p.hp}, ${p.attack}, ${p.defense}, ${p.specialattack},
-            ${p.specialdefense}, ${p.speed}
-          )
+          INSERT INTO items (id, slug, name, sprite, cost)
+          VALUES (${i.id}, ${i.slug}, ${i.name}, ${i.sprite}, ${i.cost})
           ON CONFLICT (id) DO NOTHING;
         `
       }),
     )
 
-    console.log(`Seeded ${insertedPokemon.length} pokemon`)
+    console.log(`Seeded ${insertedItems.length} items`)
 
     return {
       createTable,
       createIndex,
-      pokemon: insertedPokemon,
+      items: insertedItems,
     }
   } catch (error) {
-    console.error('Error seeding pokemon:', error)
+    console.error('Error seeding items:', error)
     throw error
   }
 }
@@ -114,7 +100,7 @@ async function main() {
   const client = await db.connect()
 
   await seedLocations(client)
-  await seedPokemon(client)
+  await seedItems(client)
 
   // @ts-ignore
   await client.end()
