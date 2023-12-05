@@ -24,7 +24,9 @@ export default function SearchForm() {
   return (
     <form
       onSubmit={handleSubmit((data) =>
-        router.push(`/search?handoff=${data.handoff}&zip=${data.zip}`),
+        router.push(
+          `/locations/search?handoff=${data.handoff}&zip=${data.zip}`,
+        ),
       )}
       className="flex flex-col gap-y-4 p-4"
     >

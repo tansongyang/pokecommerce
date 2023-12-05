@@ -48,7 +48,7 @@ export function LocationSkeleton() {
   )
 }
 
-function SearchCard() {
+function LocationsSearchCard() {
   return (
     <Shimmer className="card flex flex-col gap-y-4 !border-gray-600">
       <div className="h-5 w-2/5 rounded-full bg-gray-500"></div>
@@ -58,12 +58,12 @@ function SearchCard() {
   )
 }
 
-export function SearchSkeleton() {
+export function LocationsSearchSkeleton() {
   return (
     <div className="flex flex-col gap-y-4 p-4">
-      <SearchCard />
-      <SearchCard />
-      <SearchCard />
+      <LocationsSearchCard />
+      <LocationsSearchCard />
+      <LocationsSearchCard />
     </div>
   )
 }
