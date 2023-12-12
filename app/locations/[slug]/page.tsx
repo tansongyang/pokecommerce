@@ -1,7 +1,9 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 
+import { addItem } from '@/app/lib/actions'
 import { fetchItems, fetchLocation } from '@/app/lib/data'
+import SubmitButton from '@/app/ui/submit-button'
 
 type Props = {
   params: { slug: string }
@@ -35,10 +37,12 @@ export default async function Location({ params }: Props) {
               height={30}
               alt={`Image of ${i.name}`}
             />
-            <div className="flex flex-col justify-between">
+            <form action={addItem} className="flex grow flex-col gap-y-4">
               <p className="font-bold">{i.name}</p>
               <p>¥${i.cost}</p>
-            </div>
+              <input name="itemId" value={i.id} readOnly hidden />
+              <SubmitButton text="Add" />
+            </form>
           </li>
         ))}
       </ul>

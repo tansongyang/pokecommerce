@@ -1,3 +1,8 @@
+export type Cart = {
+  id: number
+  items: Array<Pick<Item, 'slug' | 'name' | 'cost'>>
+}
+
 export type Item = {
   id: number
   slug: string

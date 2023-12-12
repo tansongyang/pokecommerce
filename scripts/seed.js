@@ -96,11 +96,32 @@ async function seedItems(client) {
   }
 }
 
+async function createCart(client) {
+  try {
+    // Create the "cart" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS cart (
+        id SERIAL PRIMARY KEY,
+        items JSONB NOT NULL
+      );
+    `
+
+    console.log(`Created table "cart"`)
+    return {
+      createTable,
+    }
+  } catch (error) {
+    console.error('Error creating table "cart":', error)
+    throw error
+  }
+}
+
 async function main() {
   const client = await db.connect()
 
   await seedLocations(client)
   await seedItems(client)
+  await createCart(client)
 
   // @ts-ignore
   await client.end()

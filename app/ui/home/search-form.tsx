@@ -1,23 +1,7 @@
 'use client'
 
-import { useFormStatus } from 'react-dom'
-
 import { search } from '@/app/lib/actions'
-import Spinner from '@/app/ui/spinner'
-
-function SubmitButton() {
-  const status = useFormStatus()
-  const disabled = status.pending
-  return (
-    <button
-      type="submit"
-      disabled={disabled}
-      className="button flex justify-center disabled:brightness-50"
-    >
-      {disabled ? <Spinner /> : 'Search'}
-    </button>
-  )
-}
+import SubmitButton from '@/app/ui/submit-button'
 
 export default function SearchForm() {
   return (
@@ -36,7 +20,7 @@ export default function SearchForm() {
         className="input"
       />
 
-      <SubmitButton />
+      <SubmitButton text="Search" />
     </form>
   )
 }
