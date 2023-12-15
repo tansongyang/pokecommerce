@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
-import Cart from '@/app/ui/cart'
+import CartButton from '@/app/ui/cart/button'
+import CartContents from '@/app/ui/cart/contents'
 
 export default async function Header() {
   return (
@@ -12,7 +13,9 @@ export default async function Header() {
       >
         pokécommerce
       </Link>
-      <Cart />
+      <div className="flex justify-end">
+        <CartButton CartContents={<CartContents />} />
+      </div>
     </header>
   )
 }

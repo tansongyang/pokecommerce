@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import SearchForm from '@/app/ui/home/search-form'
 
 export default function Home() {

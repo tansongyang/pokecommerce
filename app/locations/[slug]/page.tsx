@@ -3,6 +3,7 @@ import Image from 'next/image'
 
 import { addItem } from '@/app/lib/actions'
 import { fetchItems, fetchLocation } from '@/app/lib/data'
+import Cost from '@/app/ui/cost'
 import SubmitButton from '@/app/ui/submit-button'
 
 type Props = {
@@ -39,7 +40,9 @@ export default async function Location({ params }: Props) {
             />
             <form action={addItem} className="flex grow flex-col gap-y-4">
               <p className="font-bold">{i.name}</p>
-              <p>¥${i.cost}</p>
+              <p>
+                <Cost amount={i.cost} />
+              </p>
               <input name="itemId" value={i.id} readOnly hidden />
               <SubmitButton text="Add" />
             </form>
