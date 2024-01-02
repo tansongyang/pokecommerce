@@ -18,7 +18,7 @@ export default function CartButtonClient({ CartContents }: Props) {
         <CartIcon />
         <span className="sr-only">Open cart</span>
       </button>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Your Cart">
         {CartContents}
       </Modal>
     </>

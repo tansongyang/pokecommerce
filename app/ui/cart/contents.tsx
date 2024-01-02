@@ -13,7 +13,7 @@ export default async function CartContents() {
   }
 
   if (!cart) {
-    return null
+    return <p className="p-8 text-center">Your cart is empty.</p>
   }
 
   return (
