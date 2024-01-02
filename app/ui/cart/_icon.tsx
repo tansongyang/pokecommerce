@@ -1,3 +1,7 @@
+// "icon.tsx" appears to be a reserved filename, and using it triggers
+// https://nextjs.org/docs/messages/prerender-error.
+// Workaround by prefixing with "_"
+
 export default function CartIcon() {
   return (
     <svg

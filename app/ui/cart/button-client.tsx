@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import CartIcon from '@/app/ui/cart/icon'
+import CartIcon from '@/app/ui/cart/_icon'
 import Modal from '@/app/ui/modal'
 
 type Props = {

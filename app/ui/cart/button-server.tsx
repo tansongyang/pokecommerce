@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import CartIcon from '@/app/ui/cart/icon'
+import CartIcon from '@/app/ui/cart/_icon'
 
 export default function CartButtonServer() {
   return (
