@@ -1,6 +1,44 @@
 import { sql } from '@vercel/postgres'
 
-import { Item, Location } from '@/app/lib/definitions'
+import { Cart, Item, Location } from '@/app/lib/definitions'
+
+export async function createCart(): Promise<Cart> {
+  const data = await sql<Cart>`
+    INSERT INTO cart (items)
+    VALUES ('[]')
+    RETURNING id, items
+  `
+
+  return data.rows[0]
+}
+
+export async function fetchCart(id: number): Promise<Cart> {
+  const data = await sql<Cart>`
+    SELECT id, items
+    FROM cart
+    WHERE id = ${id}
+  `
+
+  return data.rows[0]
+}
+
+export async function updateCart(cart: Cart): Promise<void> {
+  await sql`
+    UPDATE cart
+    SET items = ${JSON.stringify(cart.items)}
+    WHERE id = ${cart.id}
+  `
+}
+
+export async function fetchItem(id: number): Promise<Item> {
+  const data = await sql<Item>`
+    SELECT id, slug, name, sprite, cost
+    FROM items
+    WHERE id = ${id}
+  `
+
+  return data.rows[0]
+}
 
 export async function fetchItems(): Promise<Item[]> {
   const data = await sql<Item>`
