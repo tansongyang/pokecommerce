@@ -4,7 +4,7 @@ import { Cart, Item, Location } from '@/app/lib/definitions'
 
 export async function createCart(): Promise<Cart> {
   const data = await sql<Cart>`
-    INSERT INTO cart (items)
+    INSERT INTO carts (items)
     VALUES ('[]')
     RETURNING id, items
   `
@@ -15,7 +15,7 @@ export async function createCart(): Promise<Cart> {
 export async function fetchCart(id: number): Promise<Cart> {
   const data = await sql<Cart>`
     SELECT id, items
-    FROM cart
+    FROM carts
     WHERE id = ${id}
   `
 
@@ -24,7 +24,7 @@ export async function fetchCart(id: number): Promise<Cart> {
 
 export async function updateCart(cart: Cart): Promise<void> {
   await sql`
-    UPDATE cart
+    UPDATE carts
     SET items = ${JSON.stringify(cart.items)}
     WHERE id = ${cart.id}
   `
