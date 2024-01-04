@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
+import { useIsJsEnabled } from '@/app/hooks/useIsJsEnabled'
 import CartButtonClient from '@/app/ui/cart/button-client'
 import CartButtonServer from '@/app/ui/cart/button-server'
 
@@ -10,13 +9,9 @@ type Props = {
 }
 
 export default function CartButton({ CartContents }: Props) {
-  const [hasJs, setHasJs] = useState(false)
+  const js = useIsJsEnabled()
 
-  useEffect(() => {
-    setHasJs(true)
-  }, [])
-
-  return hasJs ? (
+  return js ? (
     <CartButtonClient CartContents={CartContents}></CartButtonClient>
   ) : (
     <CartButtonServer />
