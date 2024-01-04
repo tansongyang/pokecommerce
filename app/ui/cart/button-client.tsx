@@ -1,16 +1,18 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { usePathnameChangeListener } from '@/app/hooks/usePathnameChangeListener'
+import { Cart } from '@/app/lib/definitions'
 import CartIcon from '@/app/ui/cart/_icon'
 import Modal from '@/app/ui/modal'
 
 type Props = {
   CartContents: React.ReactNode
+  cart?: Cart
 }
 
-export default function CartButtonClient({ CartContents }: Props) {
+export default function CartButtonClient({ CartContents, cart }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   usePathnameChangeListener(
@@ -18,6 +20,15 @@ export default function CartButtonClient({ CartContents }: Props) {
       setIsOpen(false)
     }, []),
   )
+
+  const itemCountRef = useRef(cart?.items.length)
+  useEffect(() => {
+    const itemCount = cart?.items.length
+    if (itemCount !== itemCountRef.current) {
+      setIsOpen(true)
+    }
+    itemCountRef.current = itemCount
+  }, [cart?.items.length])
 
   return (
     <>
