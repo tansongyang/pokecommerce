@@ -16,9 +16,14 @@ export default async function CartContents() {
     return <p className="p-8 text-center">Your cart is empty.</p>
   }
 
+  const handoff = cart.handoff[0].toUpperCase() + cart.handoff.slice(1)
+
   return (
-    <div>
-      <ul className="flex flex-col gap-y-4 p-4">
+    <div className="p-4">
+      <p className="mb-4">
+        <strong>{handoff}</strong> from <strong>{cart.location.name}</strong>
+      </p>
+      <ul className="flex flex-col gap-y-4">
         {cart.items.map((l, i) => (
           <li key={i} className="flex justify-between">
             <span>{l.name}</span>

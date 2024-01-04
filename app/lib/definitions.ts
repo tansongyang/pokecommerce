@@ -1,7 +1,7 @@
 export type Cart = {
   id: number
   items: Array<Pick<Item, 'slug' | 'name' | 'cost'>>
-  locationSlug: string
+  location: Location
   handoff: string
 }
 

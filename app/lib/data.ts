@@ -2,20 +2,20 @@ import { sql } from '@vercel/postgres'
 
 import { Cart, Item, Location } from '@/app/lib/definitions'
 
-type RawCart = Omit<Cart, 'locationSlug'> & {
+type CartData = Omit<Cart, 'locationSlug'> & {
   location_slug: string
 }
 
-function mapCart(raw?: RawCart): Cart | undefined {
-  if (!raw) {
+async function mapCart(data?: CartData): Promise<Cart | undefined> {
+  if (!data) {
     return undefined
   }
 
   return {
-    id: raw.id,
-    items: raw.items,
-    locationSlug: raw.location_slug,
-    handoff: raw.handoff,
+    id: data.id,
+    items: data.items,
+    location: await fetchLocation(data.location_slug),
+    handoff: data.handoff,
   }
 }
 
@@ -23,23 +23,27 @@ export async function createCart(
   locationSlug: string,
   handoff: string,
 ): Promise<Cart> {
-  const data = await sql<RawCart>`
+  const data = await sql<CartData>`
     INSERT INTO carts (items, location_slug, handoff)
     VALUES ('[]', ${locationSlug}, ${handoff})
     RETURNING id, items, location_slug, handoff
   `
 
-  return mapCart(data.rows[0])!
+  const cart = await mapCart(data.rows[0])
+
+  return cart!
 }
 
 export async function fetchCart(id: number): Promise<Cart | undefined> {
-  const data = await sql<RawCart>`
+  const data = await sql<CartData>`
     SELECT id, items, location_slug, handoff
     FROM carts
     WHERE id = ${id}
   `
 
-  return mapCart(data.rows[0])
+  const cart = await mapCart(data.rows[0])
+
+  return cart
 }
 
 export async function updateCart(cart: Cart): Promise<void> {
