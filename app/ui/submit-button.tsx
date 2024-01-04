@@ -5,10 +5,10 @@ import { useFormStatus } from 'react-dom'
 import Spinner from '@/app/ui/spinner'
 
 type Props = {
-  text: string
+  children: React.ReactNode
 }
 
-export default function SubmitButton({ text }: Props) {
+export default function SubmitButton({ children }: Props) {
   const status = useFormStatus()
   const disabled = status.pending
   return (
@@ -17,7 +17,7 @@ export default function SubmitButton({ text }: Props) {
       disabled={disabled}
       className="button flex justify-center disabled:brightness-50"
     >
-      {disabled ? <Spinner /> : text}
+      {disabled ? <Spinner /> : children}
     </button>
   )
 }

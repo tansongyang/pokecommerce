@@ -20,7 +20,7 @@ export default function SearchForm() {
         className="input"
       />
 
-      <SubmitButton text="Search" />
+      <SubmitButton>Search</SubmitButton>
     </form>
   )
 }

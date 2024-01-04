@@ -1,10 +1,13 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-import { fetchLocations } from '@/app/lib/data'
+import { readLocations } from '@/app/lib/data'
 
 type Props = {
-  searchParams: { zip: string }
+  searchParams: {
+    handoff: string
+    zip: string
+  }
 }
 
 export const metadata: Metadata = {
@@ -12,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function LocationsSearch({ searchParams }: Props) {
-  const locations = await fetchLocations(searchParams.zip)
+  const locations = await readLocations(searchParams.zip)
 
   return (
     <ul className="flex flex-col gap-y-4 p-4">
@@ -20,7 +23,10 @@ export default async function LocationsSearch({ searchParams }: Props) {
         <li key={l.id} className="card flex flex-col gap-y-4">
           <p className="font-bold">{l.name}</p>
           <p>{l.description}</p>
-          <Link href={`/locations/${l.slug}`} className="button text-center">
+          <Link
+            href={`/locations/${l.slug}?handoff=${searchParams.handoff}`}
+            className="button text-center"
+          >
             Order now
           </Link>
         </li>
