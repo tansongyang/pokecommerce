@@ -15,7 +15,7 @@ async function mapCart(data?: CartData): Promise<Cart | undefined> {
     id: data.id,
     items: data.items,
     total: data.items.reduce((sum, item) => sum + item.cost, 0),
-    location: await fetchLocation(data.location_slug),
+    location: await readLocation(data.location_slug),
     handoff: data.handoff,
   }
 }
@@ -55,7 +55,7 @@ export async function updateCart(cart: Cart): Promise<void> {
   `
 }
 
-export async function fetchItem(id: number): Promise<Item> {
+export async function readItem(id: number): Promise<Item> {
   const data = await sql<Item>`
     SELECT id, slug, name, sprite, cost
     FROM items
@@ -65,7 +65,7 @@ export async function fetchItem(id: number): Promise<Item> {
   return data.rows[0]
 }
 
-export async function fetchItems(): Promise<Item[]> {
+export async function readItems(): Promise<Item[]> {
   const data = await sql<Item>`
     SELECT id, slug, name, sprite, cost
     FROM items
@@ -74,7 +74,7 @@ export async function fetchItems(): Promise<Item[]> {
   return data.rows
 }
 
-export async function fetchLocation(slug: string): Promise<Location> {
+export async function readLocation(slug: string): Promise<Location> {
   const data = await sql<Location>`
     SELECT id, slug, name, region, description
     FROM locations
@@ -84,7 +84,7 @@ export async function fetchLocation(slug: string): Promise<Location> {
   return data.rows[0]
 }
 
-export async function fetchLocations(zip: string): Promise<Location[]> {
+export async function readLocations(zip: string): Promise<Location[]> {
   const region = zip < '50000' ? 'kanto' : 'johto'
 
   const data = await sql<Location>`

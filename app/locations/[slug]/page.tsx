@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import { addItem } from '@/app/lib/actions'
 import { fetchCart } from '@/app/lib/cart'
-import { fetchItems, fetchLocation } from '@/app/lib/data'
+import { readItems, readLocation } from '@/app/lib/data'
 import Cost from '@/app/ui/cost'
 import SubmitButton from '@/app/ui/submit-button'
 
@@ -15,7 +15,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = params.slug
 
-  const location = await fetchLocation(slug)
+  const location = await readLocation(slug)
 
   return {
     title: `Pokécommerce | ${location.name}`,
@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Location({ params, searchParams }: Props) {
   const [location, items] = await Promise.all([
-    fetchLocation(params.slug),
-    fetchItems(),
+    readLocation(params.slug),
+    readItems(),
   ])
 
   const cart = await fetchCart()

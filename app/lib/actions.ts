@@ -6,8 +6,8 @@ import { redirect } from 'next/navigation'
 import {
   createCart,
   createOrder,
-  fetchItem,
   readCart,
+  readItem,
   updateCart,
 } from '@/app/lib/data'
 import { Cart } from '@/app/lib/definitions'
@@ -46,7 +46,7 @@ export async function addItem(data: FormData) {
     cookies().set('cartId', cartId.toString())
   }
 
-  const item = await fetchItem(validated.itemId)
+  const item = await readItem(validated.itemId)
 
   cart.items.push({
     slug: item.slug,

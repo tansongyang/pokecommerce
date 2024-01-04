@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-import { fetchLocations } from '@/app/lib/data'
+import { readLocations } from '@/app/lib/data'
 
 type Props = {
   searchParams: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function LocationsSearch({ searchParams }: Props) {
-  const locations = await fetchLocations(searchParams.zip)
+  const locations = await readLocations(searchParams.zip)
 
   return (
     <ul className="flex flex-col gap-y-4 p-4">
