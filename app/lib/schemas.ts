@@ -2,6 +2,8 @@ import { z } from 'zod'
 
 export const AddItemFormSchema = z.object({
   itemId: z.coerce.number(),
+  locationSlug: z.string(),
+  handoff: z.enum(['pickup', 'curbside', 'drivethru']),
 })
 
 export const SearchFormSchema = z.object({

@@ -2,24 +2,44 @@ import { sql } from '@vercel/postgres'
 
 import { Cart, Item, Location } from '@/app/lib/definitions'
 
-export async function createCart(): Promise<Cart> {
-  const data = await sql<Cart>`
-    INSERT INTO carts (items)
-    VALUES ('[]')
-    RETURNING id, items
-  `
-
-  return data.rows[0]
+type RawCart = Omit<Cart, 'locationSlug'> & {
+  location_slug: string
 }
 
-export async function fetchCart(id: number): Promise<Cart> {
-  const data = await sql<Cart>`
-    SELECT id, items
+function mapCart(raw?: RawCart): Cart | undefined {
+  if (!raw) {
+    return undefined
+  }
+
+  return {
+    id: raw.id,
+    items: raw.items,
+    locationSlug: raw.location_slug,
+    handoff: raw.handoff,
+  }
+}
+
+export async function createCart(
+  locationSlug: string,
+  handoff: string,
+): Promise<Cart> {
+  const data = await sql<RawCart>`
+    INSERT INTO carts (items, location_slug, handoff)
+    VALUES ('[]', ${locationSlug}, ${handoff})
+    RETURNING id, items, location_slug, handoff
+  `
+
+  return mapCart(data.rows[0])!
+}
+
+export async function fetchCart(id: number): Promise<Cart | undefined> {
+  const data = await sql<RawCart>`
+    SELECT id, items, location_slug, handoff
     FROM carts
     WHERE id = ${id}
   `
 
-  return data.rows[0]
+  return mapCart(data.rows[0])
 }
 
 export async function updateCart(cart: Cart): Promise<void> {

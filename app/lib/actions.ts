@@ -21,6 +21,8 @@ export async function search(data: FormData) {
 export async function addItem(data: FormData) {
   const validated = AddItemFormSchema.parse({
     itemId: data.get('itemId'),
+    locationSlug: data.get('locationSlug'),
+    handoff: data.get('handoff'),
   })
 
   let cartId = Number(cookies().get('cartId')?.value)
@@ -31,7 +33,7 @@ export async function addItem(data: FormData) {
   }
 
   if (!cart) {
-    cart = await createCart()
+    cart = await createCart(validated.locationSlug, validated.handoff)
     cartId = cart.id
     cookies().set('cartId', cartId.toString())
   }

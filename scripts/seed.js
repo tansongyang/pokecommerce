@@ -102,7 +102,9 @@ async function createCarts(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS carts (
         id SERIAL PRIMARY KEY,
-        items JSONB NOT NULL
+        items JSONB NOT NULL,
+        location_slug TEXT NOT NULL,
+        handoff TEXT NOT NULL
       );
     `
 

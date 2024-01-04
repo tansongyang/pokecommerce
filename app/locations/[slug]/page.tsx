@@ -8,6 +8,7 @@ import SubmitButton from '@/app/ui/submit-button'
 
 type Props = {
   params: { slug: string }
+  searchParams: { handoff: string }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function Location({ params }: Props) {
+export default async function Location({ params, searchParams }: Props) {
   const [location, items] = await Promise.all([
     fetchLocation(params.slug),
     fetchItems(),
@@ -44,6 +45,13 @@ export default async function Location({ params }: Props) {
                 <Cost amount={i.cost} />
               </p>
               <input name="itemId" value={i.id} readOnly hidden />
+              <input name="locationSlug" value={params.slug} readOnly hidden />
+              <input
+                name="handoff"
+                value={searchParams.handoff}
+                readOnly
+                hidden
+              />
               <SubmitButton text="Add" />
             </form>
           </li>
