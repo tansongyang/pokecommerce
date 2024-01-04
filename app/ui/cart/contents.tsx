@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers'
+import Link from 'next/link'
 
 import { fetchCart } from '@/app/lib/data'
 import { Cart } from '@/app/lib/definitions'
@@ -19,8 +20,8 @@ export default async function CartContents() {
   const handoff = cart.handoff[0].toUpperCase() + cart.handoff.slice(1)
 
   return (
-    <div className="p-4">
-      <p className="mb-4">
+    <div className="flex flex-col gap-y-4 p-4">
+      <p>
         <strong>{handoff}</strong> from <strong>{cart.location.name}</strong>
       </p>
       <ul className="flex flex-col gap-y-4">
@@ -33,6 +34,9 @@ export default async function CartContents() {
           </li>
         ))}
       </ul>
+      <Link href="/checkout" className="button text-center">
+        Checkout
+      </Link>
     </div>
   )
 }
