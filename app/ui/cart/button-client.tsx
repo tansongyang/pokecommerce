@@ -24,7 +24,7 @@ export default function CartButtonClient({ CartContents, cart }: Props) {
   const itemCountRef = useRef(cart?.items.length)
   useEffect(() => {
     const itemCount = cart?.items.length
-    if (itemCount !== itemCountRef.current) {
+    if (itemCount && itemCount !== itemCountRef.current) {
       setIsOpen(true)
     }
     itemCountRef.current = itemCount
