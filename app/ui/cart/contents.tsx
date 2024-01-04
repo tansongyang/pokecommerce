@@ -1,17 +1,18 @@
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 
-import { fetchCart } from '@/app/lib/data'
-import { Cart } from '@/app/lib/definitions'
+import { fetchCart } from '@/app/lib/cart'
 import Cost from '@/app/ui/cost'
 
-export default async function CartContents() {
-  const cartId = Number(cookies().get('cartId')?.value)
+type Props = {
+  hideAddMoreButton?: boolean
+  hideCheckoutButton?: boolean
+}
 
-  let cart: Cart | undefined
-  if (cartId) {
-    cart = await fetchCart(cartId)
-  }
+export default async function CartContents({
+  hideAddMoreButton,
+  hideCheckoutButton,
+}: Props) {
+  const cart = await fetchCart()
 
   if (!cart) {
     return <p className="p-8 text-center">Your cart is empty.</p>
@@ -34,9 +35,19 @@ export default async function CartContents() {
           </li>
         ))}
       </ul>
-      <Link href="/checkout" className="button text-center">
-        Checkout
-      </Link>
+      {hideAddMoreButton ? null : (
+        <Link
+          href={`/locations/${cart.location.slug}`}
+          className="button text-center"
+        >
+          Add More
+        </Link>
+      )}
+      {hideCheckoutButton ? null : (
+        <Link href="/checkout" className="button text-center">
+          Checkout
+        </Link>
+      )}
     </div>
   )
 }

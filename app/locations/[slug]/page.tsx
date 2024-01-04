@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 
 import { addItem } from '@/app/lib/actions'
+import { fetchCart } from '@/app/lib/cart'
 import { fetchItems, fetchLocation } from '@/app/lib/data'
 import Cost from '@/app/ui/cost'
 import SubmitButton from '@/app/ui/submit-button'
@@ -27,6 +28,8 @@ export default async function Location({ params, searchParams }: Props) {
     fetchItems(),
   ])
 
+  const cart = await fetchCart()
+
   return (
     <div>
       <h1 className="heading-1 text-center">{location.name}</h1>
@@ -48,11 +51,11 @@ export default async function Location({ params, searchParams }: Props) {
               <input name="locationSlug" value={params.slug} readOnly hidden />
               <input
                 name="handoff"
-                value={searchParams.handoff}
+                value={cart?.handoff ?? searchParams.handoff}
                 readOnly
                 hidden
               />
-              <SubmitButton text="Add" />
+              <SubmitButton>Add</SubmitButton>
             </form>
           </li>
         ))}

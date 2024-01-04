@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Cart() {
   return (
     <div className="mx-auto max-w-[30ch]">
-      <h1 className="heading-1">Your Cart</h1>
+      <h1 className="heading-1 text-center">Your Cart</h1>
       <CartContents />
     </div>
   )

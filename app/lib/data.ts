@@ -14,6 +14,7 @@ async function mapCart(data?: CartData): Promise<Cart | undefined> {
   return {
     id: data.id,
     items: data.items,
+    total: data.items.reduce((sum, item) => sum + item.cost, 0),
     location: await fetchLocation(data.location_slug),
     handoff: data.handoff,
   }
