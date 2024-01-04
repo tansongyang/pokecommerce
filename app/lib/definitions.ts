@@ -21,3 +21,8 @@ export type Location = {
   region: string
   description: string
 }
+
+export type Order = {
+  id: number
+  cart: Cart
+}

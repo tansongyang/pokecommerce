@@ -3,16 +3,24 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { createCart, fetchCart, fetchItem, updateCart } from '@/app/lib/data'
+import {
+  createCart,
+  createOrder,
+  fetchItem,
+  readCart,
+  updateCart,
+} from '@/app/lib/data'
 import { Cart } from '@/app/lib/definitions'
 import { AddItemFormSchema, SearchFormSchema } from '@/app/lib/schemas'
 
+import { getCartId } from './cart'
+
 export async function search(data: FormData) {
-  const raw = {
+  const validated = SearchFormSchema.parse({
     handoff: data.get('handoff'),
     zip: data.get('zip'),
-  }
-  const validated = SearchFormSchema.parse(raw)
+  })
+
   redirect(
     `/locations/search?handoff=${validated.handoff}&zip=${validated.zip}`,
   )
@@ -25,11 +33,11 @@ export async function addItem(data: FormData) {
     handoff: data.get('handoff'),
   })
 
-  let cartId = Number(cookies().get('cartId')?.value)
+  let cartId = getCartId()
   let cart: Cart | undefined
 
   if (cartId) {
-    cart = await fetchCart(cartId)
+    cart = await readCart(cartId)
   }
 
   if (!cart) {
@@ -47,4 +55,18 @@ export async function addItem(data: FormData) {
   })
 
   await updateCart(cart)
+}
+
+export async function placeOrder() {
+  const cartId = getCartId()
+
+  if (!cartId) {
+    redirect(`/`)
+  }
+
+  const orderId = await createOrder(cartId)
+
+  cookies().delete('cartId')
+
+  redirect(`/orders/${orderId}`)
 }

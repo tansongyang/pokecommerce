@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres'
 
-import { Cart, Item, Location } from '@/app/lib/definitions'
+import { Cart, Item, Location, Order } from '@/app/lib/definitions'
 
 type CartData = Omit<Cart, 'locationSlug'> & {
   location_slug: string
@@ -35,7 +35,7 @@ export async function createCart(
   return cart!
 }
 
-export async function fetchCart(id: number): Promise<Cart | undefined> {
+export async function readCart(id: number): Promise<Cart | undefined> {
   const data = await sql<CartData>`
     SELECT id, items, location_slug, handoff
     FROM carts
@@ -94,4 +94,41 @@ export async function fetchLocations(zip: string): Promise<Location[]> {
   `
 
   return data.rows
+}
+
+type OrderData = Omit<Order, 'cart'> & {
+  cart_id: number
+}
+
+async function mapOrder(data?: OrderData): Promise<Order | undefined> {
+  if (!data) {
+    return undefined
+  }
+
+  return {
+    id: data.id,
+    cart: (await readCart(data.cart_id))!,
+  }
+}
+
+export async function createOrder(cartId: number): Promise<number> {
+  const data = await sql<OrderData>`
+    INSERT INTO orders (cart_id)
+    VALUES (${cartId})
+    RETURNING id, cart_id
+  `
+
+  return data.rows[0].id
+}
+
+export async function readOrder(id: number): Promise<Order> {
+  const data = await sql<OrderData>`
+    SELECT id, cart_id
+    FROM orders
+    WHERE id = ${id}
+  `
+
+  const order = await mapOrder(data.rows[0])
+
+  return order!
 }
