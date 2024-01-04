@@ -4,6 +4,7 @@ export const AddItemFormSchema = z.object({
   itemId: z.coerce.number(),
   locationSlug: z.string(),
   handoff: z.enum(['pickup', 'curbside', 'drivethru']),
+  isJsEnabled: z.coerce.boolean(),
 })
 
 export const SearchFormSchema = z.object({

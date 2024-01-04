@@ -32,6 +32,7 @@ export async function addItem(data: FormData) {
     itemId: data.get('itemId'),
     locationSlug: data.get('locationSlug'),
     handoff: data.get('handoff'),
+    isJsEnabled: data.get('isJsEnabled'),
   })
 
   let cartId = getCartId()
@@ -57,7 +58,11 @@ export async function addItem(data: FormData) {
 
   await updateCart(cart)
 
-  revalidatePath(`/locations/${validated.locationSlug}`)
+  if (validated.isJsEnabled) {
+    revalidatePath(`/locations/${validated.locationSlug}`)
+  } else {
+    redirect('/cart')
+  }
 }
 
 export async function placeOrder() {
