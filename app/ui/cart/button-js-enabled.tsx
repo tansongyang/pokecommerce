@@ -12,7 +12,7 @@ type Props = {
   cart?: Cart
 }
 
-export default function CartButtonClient({ CartContents, cart }: Props) {
+export default function CartButtonJsEnabled({ CartContents, cart }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   usePathnameChangeListener(

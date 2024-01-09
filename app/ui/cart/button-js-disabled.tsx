@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import CartIcon from '@/app/ui/cart/_icon'
 
-export default function CartButtonServer() {
+export default function CartButtonJsDisabled() {
   return (
     <Link href={'/cart'}>
       <CartIcon />
