@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Pokécommerce | About',
 }
 
-export default function Home() {
+export default function About() {
   return (
     <div className="mx-auto max-w-[30ch]">
       <h1 className="heading-1">About</h1>
