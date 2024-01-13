@@ -8,11 +8,11 @@ import CartIcon from '@/app/ui/cart/_icon'
 import Modal from '@/app/ui/modal'
 
 type Props = {
-  CartContents: React.ReactNode
   cart?: Cart
+  children?: React.ReactNode
 }
 
-export default function CartButton({ CartContents, cart }: Props) {
+export default function CartButton({ cart, children }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   usePathnameChangeListener(
@@ -37,7 +37,7 @@ export default function CartButton({ CartContents, cart }: Props) {
         <span className="sr-only">Open cart</span>
       </button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Your Cart">
-        {CartContents}
+        {children}
       </Modal>
     </>
   )
