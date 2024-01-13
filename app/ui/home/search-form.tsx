@@ -1,5 +1,3 @@
-'use client'
-
 import { search } from '@/app/lib/actions'
 import SubmitButton from '@/app/ui/submit-button'
 

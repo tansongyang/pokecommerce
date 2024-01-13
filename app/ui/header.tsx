@@ -17,10 +17,9 @@ export default async function Header() {
         pokécommerce
       </Link>
       <div className="flex justify-end">
-        <CartButton
-          CartContents={<CartContents cart={cart} hideAddMoreButton={true} />}
-          cart={cart}
-        />
+        <CartButton cart={cart}>
+          <CartContents cart={cart} hideAddMoreButton={true} />
+        </CartButton>
       </div>
     </header>
   )

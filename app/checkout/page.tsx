@@ -32,7 +32,7 @@ export default async function Checkout() {
 
       <div>
         <h2 className="mb-4 text-lg font-bold">Payment</h2>
-        <p>We are currently only accepting cash payments</p>
+        <p>We are currently only accepting cash payments.</p>
       </div>
 
       <SubmitButton>

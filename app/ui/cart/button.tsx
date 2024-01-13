@@ -1,21 +1,44 @@
 'use client'
 
-import { useIsJsEnabled } from '@/app/hooks/useIsJsEnabled'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { usePathnameChangeListener } from '@/app/hooks/usePathnameChangeListener'
 import { Cart } from '@/app/lib/definitions'
-import CartButtonJsDisabled from '@/app/ui/cart/button-js-disabled'
-import CartButtonJsEnabled from '@/app/ui/cart/button-js-enabled'
+import CartIcon from '@/app/ui/cart/_icon'
+import Modal from '@/app/ui/modal'
 
 type Props = {
-  CartContents: React.ReactNode
   cart?: Cart
+  children?: React.ReactNode
 }
 
-export default function CartButton({ CartContents, cart }: Props) {
-  const isJsEnabled = useIsJsEnabled()
+export default function CartButton({ cart, children }: Props) {
+  const [isOpen, setIsOpen] = useState(false)
 
-  return isJsEnabled ? (
-    <CartButtonJsEnabled CartContents={CartContents} cart={cart} />
-  ) : (
-    <CartButtonJsDisabled />
+  usePathnameChangeListener(
+    useCallback(() => {
+      setIsOpen(false)
+    }, []),
+  )
+
+  const itemCountRef = useRef(cart?.items.length)
+  useEffect(() => {
+    const itemCount = cart?.items.length
+    if (itemCount && itemCount !== itemCountRef.current) {
+      setIsOpen(true)
+    }
+    itemCountRef.current = itemCount
+  }, [cart?.items.length])
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>
+        <CartIcon />
+        <span className="sr-only">Open cart</span>
+      </button>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Your Cart">
+        {children}
+      </Modal>
+    </>
   )
 }

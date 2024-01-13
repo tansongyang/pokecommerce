@@ -4,7 +4,6 @@ import { addItem } from '@/app/lib/actions'
 import { Item } from '@/app/lib/definitions'
 import Cost from '@/app/ui/cost'
 import HiddenInput from '@/app/ui/hidden-input'
-import IsJsEnabledInput from '@/app/ui/is-js-enabled-input'
 import SubmitButton from '@/app/ui/submit-button'
 
 type Props = {
@@ -35,7 +34,6 @@ export default function LocationItem({ item, locationSlug, handoff }: Props) {
         <HiddenInput name="itemId" value={item.id.toString()} />
         <HiddenInput name="locationSlug" value={locationSlug} />
         <HiddenInput name="handoff" value={handoff} />
-        <IsJsEnabledInput />
       </form>
     </div>
   )
