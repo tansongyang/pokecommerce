@@ -16,6 +16,10 @@ export default function About() {
           Frank Tan
         </ExternalLink>{' '}
         to learn <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>
+        . See the source on{' '}
+        <ExternalLink href="https://github.com/tansongyang/pokecommerce">
+          GitHub
+        </ExternalLink>
         .
       </p>
     </div>
