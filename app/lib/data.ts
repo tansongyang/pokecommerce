@@ -6,6 +6,18 @@ type CartData = Omit<Cart, 'locationSlug'> & {
   location_slug: string
 }
 
+async function db<T>(
+  action: () => Promise<T>,
+  errorMessage: string,
+): Promise<T> {
+  try {
+    return await action()
+  } catch (err) {
+    console.error(`Database Error: ${err}`)
+    throw new Error(errorMessage)
+  }
+}
+
 async function mapCart(data?: CartData): Promise<Cart | undefined> {
   if (!data) {
     return undefined
@@ -24,76 +36,90 @@ export async function createCart(
   locationSlug: string,
   handoff: string,
 ): Promise<Cart> {
-  const data = await sql<CartData>`
+  return db(async () => {
+    const data = await sql<CartData>`
     INSERT INTO carts (items, location_slug, handoff)
     VALUES ('[]', ${locationSlug}, ${handoff})
     RETURNING id, items, location_slug, handoff
   `
 
-  const cart = await mapCart(data.rows[0])
+    const cart = await mapCart(data.rows[0])
 
-  return cart!
+    return cart!
+  }, 'Failed to create cart.')
 }
 
 export async function readCart(id: number): Promise<Cart | undefined> {
-  const data = await sql<CartData>`
+  return db(async () => {
+    const data = await sql<CartData>`
     SELECT id, items, location_slug, handoff
     FROM carts
     WHERE id = ${id}
   `
 
-  const cart = await mapCart(data.rows[0])
+    const cart = await mapCart(data.rows[0])
 
-  return cart
+    return cart
+  }, `Failed to read cart with id: ${id}.`)
 }
 
 export async function updateCart(cart: Cart): Promise<void> {
-  await sql`
+  db(async () => {
+    await sql`
     UPDATE carts
     SET items = ${JSON.stringify(cart.items)}
     WHERE id = ${cart.id}
   `
+  }, `Failed to update cart with id: ${cart.id}.`)
 }
 
 export async function readItem(id: number): Promise<Item> {
-  const data = await sql<Item>`
+  return db(async () => {
+    const data = await sql<Item>`
     SELECT id, slug, name, sprite, cost
     FROM items
     WHERE id = ${id}
   `
 
-  return data.rows[0]
+    return data.rows[0]
+  }, `Failed to read item with id: ${id}.`)
 }
 
 export async function readItems(): Promise<Item[]> {
-  const data = await sql<Item>`
+  return db(async () => {
+    const data = await sql<Item>`
     SELECT id, slug, name, sprite, cost
     FROM items
   `
 
-  return data.rows
+    return data.rows
+  }, `Failed to read items.`)
 }
 
 export async function readLocation(slug: string): Promise<Location> {
-  const data = await sql<Location>`
+  return db(async () => {
+    const data = await sql<Location>`
     SELECT id, slug, name, region, description
     FROM locations
     WHERE slug = ${slug}
   `
 
-  return data.rows[0]
+    return data.rows[0]
+  }, `Failed to read location with slug: ${slug}.`)
 }
 
 export async function readLocations(zip: string): Promise<Location[]> {
-  const region = zip < '50000' ? 'kanto' : 'johto'
+  return db(async () => {
+    const region = zip < '50000' ? 'kanto' : 'johto'
 
-  const data = await sql<Location>`
+    const data = await sql<Location>`
     SELECT id, slug, name, region, description
     FROM locations
     WHERE region = ${region}
   `
 
-  return data.rows
+    return data.rows
+  }, `Failed to read locations from zip: ${zip}.`)
 }
 
 type OrderData = Omit<Order, 'cart'> & {
@@ -112,23 +138,27 @@ async function mapOrder(data?: OrderData): Promise<Order | undefined> {
 }
 
 export async function createOrder(cartId: number): Promise<number> {
-  const data = await sql<OrderData>`
+  return db(async () => {
+    const data = await sql<OrderData>`
     INSERT INTO orders (cart_id)
     VALUES (${cartId})
     RETURNING id, cart_id
   `
 
-  return data.rows[0].id
+    return data.rows[0].id
+  }, `Failed to create order for cart with id: ${cartId}.`)
 }
 
 export async function readOrder(id: number): Promise<Order> {
-  const data = await sql<OrderData>`
+  return db(async () => {
+    const data = await sql<OrderData>`
     SELECT id, cart_id
     FROM orders
     WHERE id = ${id}
   `
 
-  const order = await mapOrder(data.rows[0])
+    const order = await mapOrder(data.rows[0])
 
-  return order!
+    return order!
+  }, `Failed to read order with id: ${id}.`)
 }
