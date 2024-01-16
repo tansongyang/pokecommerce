@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 import { fetchCart } from '@/app/lib/cart'
 import { readItems, readLocation } from '@/app/lib/data'
-import LocationItem from '@/app/ui/locations/item'
+import LocationItem from '@/app/locations/[slug]/item'
 
 type Props = {
   params: { slug: string }
