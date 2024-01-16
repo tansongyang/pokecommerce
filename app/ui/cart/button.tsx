@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { usePathnameChangeListener } from '@/app/hooks/usePathnameChangeListener'
 import { Cart } from '@/app/lib/definitions'
+import { usePathnameChangeListener } from '@/app/lib/hooks/usePathnameChangeListener'
 import CartIcon from '@/app/ui/cart/_icon'
 import Modal from '@/app/ui/modal'
 
