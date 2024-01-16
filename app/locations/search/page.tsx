@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 
 import { readLocations } from '@/app/lib/data'
 import LocationsSearchResult from '@/app/ui/locations/search/result'
