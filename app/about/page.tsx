@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-[30ch]">
+    <div className="mx-auto max-w-sm">
       <h1 className="heading-1">About</h1>
       <p>
         Pokécommerce is a Pokémon themed ecommerce app built by{' '}

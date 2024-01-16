@@ -21,7 +21,7 @@ export default async function Checkout() {
   return (
     <form
       action={placeOrder}
-      className="mx-auto flex max-w-[30ch] flex-col gap-y-8"
+      className="mx-auto flex max-w-sm flex-col gap-y-8"
     >
       <h1 className="heading-1 text-center">Checkout</h1>
 

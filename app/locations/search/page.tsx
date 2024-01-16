@@ -18,7 +18,7 @@ export default async function LocationsSearch({ searchParams }: Props) {
   const locations = await readLocations(searchParams.zip)
 
   return (
-    <ul className="flex flex-col gap-y-4 p-4">
+    <ul className="mx-auto flex max-w-sm flex-col gap-y-4 p-4">
       {locations.map((l) => (
         <li key={l.id} className="card flex flex-col gap-y-4">
           <p className="font-bold">{l.name}</p>
