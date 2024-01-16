@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-[30ch]">
+    <div className="mx-auto max-w-sm">
       <h1 className="heading-1">About</h1>
       <p>
         Pokécommerce is a Pokémon themed ecommerce app built by{' '}
@@ -16,6 +16,10 @@ export default function About() {
           Frank Tan
         </ExternalLink>{' '}
         to learn <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>
+        . See the source on{' '}
+        <ExternalLink href="https://github.com/tansongyang/pokecommerce">
+          GitHub
+        </ExternalLink>
         .
       </p>
     </div>

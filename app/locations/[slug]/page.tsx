@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 import { fetchCart } from '@/app/lib/cart'
 import { readItems, readLocation } from '@/app/lib/data'
-import LocationItem from '@/app/ui/locations/item'
+import LocationItem from '@/app/locations/[slug]/item'
 
 type Props = {
   params: { slug: string }
@@ -28,7 +28,7 @@ export default async function Location({ params, searchParams }: Props) {
   const cart = await fetchCart()
 
   return (
-    <div>
+    <div className="mx-auto max-w-lg">
       <h1 className="heading-1 text-center">{location.name}</h1>
       <ul className="grid grid-cols-2 gap-4 p-4">
         {items.map((i) => (
